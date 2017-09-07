@@ -3,7 +3,7 @@ FakerConfig is a [Faker](https://github.com/fzaninotto/Faker) extension to popul
 
 FakerConfig provides an easy way to configure the format to use when generating data for a given entity/property combination.
 
-[![Build Status](https://travis-ci.org/clabonte/faker-config.svg?branch=master)]
+![Build Status](https://travis-ci.org/clabonte/faker-config.svg?branch=master)
 
 With this extension, one can create a simple JSON configuration file to describe how to format various Entities and their properties.
 FakerConfig will parse Faker's Generator PHPDoc used to identify the list of valid formats that can be used by the configuration file and will validate the configuration file against to to reject any format that won't be understood by Faker 
