@@ -8,6 +8,16 @@ FakerConfig provides an easy way to configure the format to use when generating 
 With this extension, one can create a simple JSON configuration file to describe how to format various Entities and their properties.
 FakerConfig will parse Faker's Generator PHPDoc used to identify the list of valid formats that can be used by the configuration file and will validate the configuration file against to to reject any format that won't be understood by Faker 
 
+**Table of Contents**
+
+- [Configuration File](#)
+- [Step 1. Create the ConfigGuesser](#)
+- [Step 2. Load the Configuration File](#)
+	- [Alternate Solution: Configure the Guesser Programmatically](#)
+- [Step 3. Populate Your Entity](#)
+    - [Populate an Object Entity](#)
+	- [Populate an Array Entity](#)
+	
 ## Configuration File
 The configuration is done via a very simply JSON file that lists out entities to populate as JSON objects ('*' = wildcard). For each entity, you simply list out the properties you want to populate along with the format to use.
 
