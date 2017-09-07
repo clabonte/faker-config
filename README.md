@@ -10,13 +10,13 @@ FakerConfig will parse Faker's Generator PHPDoc used to identify the list of val
 
 **Table of Contents**
 
-- [Configuration File](#)
-- [Step 1. Create the ConfigGuesser](#)
-- [Step 2. Load the Configuration File](#)
-	- [Alternate Solution: Configure the Guesser Programmatically](#)
-- [Step 3. Populate Your Entity](#)
-    - [Populate an Object Entity](#)
-	- [Populate an Array Entity](#)
+- [Configuration File](#configuration-file)
+- [Step 1. Create the ConfigGuesser](#step-1-create-the-configguesser)
+- [Step 2. Load the Configuration File](#step-2-load-the-configuration-file)
+	- [Alternate Solution: Configure the Guesser Programmatically](#alternate-solution-configure-the-guesser-programmatically)
+- [Step 3. Populate Your Entity](#step-3-populate-your-entity)
+    - [Populate an Object Entity](#populate-an-object-entity)
+	- [Populate an Array Entity](#populate-an-array-entity)
 	
 ## Configuration File
 The configuration is done via a very simply JSON file that lists out entities to populate as JSON objects ('*' = wildcard). For each entity, you simply list out the properties you want to populate along with the format to use.
