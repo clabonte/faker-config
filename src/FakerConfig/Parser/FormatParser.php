@@ -144,7 +144,7 @@ class FormatParser
      */
     protected function loadProperty($line)
     {
-        $items = explode(' ', $line);
+        $items = preg_split("/\s+/", $line);
         $type = $items[1];
         $name = ltrim($items[2], '$');
         $description = null;
