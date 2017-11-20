@@ -22,6 +22,7 @@ class FormatParser
      */
     public function load(Generator $generator)
     {
+        // Parse available properties and methods from the Generator PHPDoc
         $class = new \ReflectionClass($generator);
         $comment = $class->getDocComment();
 
@@ -35,6 +36,22 @@ class FormatParser
             } elseif (strpos($line, "@method") !== false) {
                 $method = $this->loadMethod($line);
                 $this->methods[$method->getName()] = $method;
+            }
+        }
+
+        // Then, parse static methods of the actual provider configured
+        $providers = $generator->getProviders();
+        foreach ($providers as $provider) {
+            $class = new \ReflectionClass($provider);
+            $staticMethods = $class->getMethods(\ReflectionMethod::IS_STATIC | \ReflectionMethod::IS_PUBLIC);
+            foreach ($staticMethods as $staticMethod) {
+                if ($staticMethod->getNumberOfParameters() == 0) {
+                    /** @var GeneratorProperty $property */
+                    $property = $this->loadPropertyFromReflection($staticMethod);
+                    if (!isset($this->properties[$property->getName()])) {
+                        $this->properties[$property->getName()] = $property;
+                    }
+                }
             }
         }
     }
@@ -214,5 +231,22 @@ class FormatParser
         }
 
         return $arg;
+    }
+
+    /**
+     * @param \ReflectionMethod $staticMethod
+     */
+    protected function loadPropertyFromReflection($staticMethod)
+    {
+        $type = $staticMethod->getReturnType();
+        if (null == $type) {
+            $type = 'string';
+        } else if (!$type->isBuiltin()) {
+            $type = $type->__toString();
+        }
+        $name = $staticMethod->getName();
+        $description = $staticMethod->getDocComment();
+
+        return new GeneratorProperty($type, $name, $description);
     }
 }

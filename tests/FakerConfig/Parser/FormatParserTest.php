@@ -42,6 +42,44 @@ class FormatParserTest extends TestCase
             array('address'),
             array('firstName'),
             array('firstNameMale'),
+            // en_US properties (default locale)
+            array('state'),
+            array('stateAbbr'),
+
+        );
+    }
+
+
+    /**
+     * Validates that parse properly identify known Faker properties using the fr-FR provider
+     *
+     * @dataProvider parseFrenchPropertiesDataProvider
+     * @param string $value Format to parse
+     */
+    public function testParseFrenchProperties($value)
+    {
+        $generator = Factory::create('fr_FR');
+        $generator->seed(1234);
+        $this->parser = new FormatParser();
+        $this->parser->load($generator);
+        $format = $this->parser->parse($value);
+        self::assertNotNull($format, 'parse returned null for value: '.$value);
+        self::assertEquals($value, $format->getName(), 'invalid format name generated');
+        self::assertTrue($format->isProperty(), 'format not marked as a property');
+        self::assertEmpty($format->getArguments(), 'parsed property should not have arguments. Found: '.count($format->getArguments()). ' arguments');
+    }
+
+    public function parseFrenchPropertiesDataProvider()
+    {
+        return array(
+            // Valid Faker Properties
+            array('name'),
+            array('address'),
+            array('firstName'),
+            array('firstNameMale'),
+            array('region'),
+            array('department'),
+            array('departmentName'),
         );
     }
 
@@ -91,6 +129,11 @@ class FormatParserTest extends TestCase
             // Unknown Faker Properties
             array('unknownName'),
             array('first name'),
+
+            // fr_FR only properties
+            array('region'),
+            array('department'),
+            array('departmentName'),
 
             // Invalid Faker Method calls
             array("name("),
