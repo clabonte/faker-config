@@ -238,11 +238,13 @@ class FormatParser
      */
     protected function loadPropertyFromReflection($staticMethod)
     {
-        $type = $staticMethod->getReturnType();
-        if (null == $type) {
-            $type = 'string';
-        } else if (!$type->isBuiltin()) {
-            $type = $type->__toString();
+        // Assume a string returned type for PHP < 7
+        $type = 'string';
+        if (defined('PHP_MAJOR_VERSION') && PHP_MAJOR_VERSION >= 7) {
+            $methodType = $staticMethod->getReturnType();
+            if ((null !== $methodType)) {
+                $type = $methodType->__toString();
+            }
         }
         $name = $staticMethod->getName();
         $description = $staticMethod->getDocComment();
